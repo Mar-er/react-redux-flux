@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>rem phone test</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Heiti SC', 'Microsoft YaHei';
+            font-size: 20px;
+            overflow: hidden;
+            outline: 0;
+            -webkit-text-size-adjust:none;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            -webkit-user-select: none;
+            position: relative;
+        }
+        header,
+        footer {
+            width: 100%;
+            line-height: 1.5rem;
+            font-size: 1rem;
+            color: #000;
+            border: 1px solid #ccc;
+            text-align: center;
+            background-color: #ccc;
+        }
+        .bd {
+            margin-top: 1rem;
+            margin-bottom: .5rem;
+            margin-right: -.5rem;
+            font-size: 0;
+        }
+        .box {
+            width: 5rem;
+            height: 5rem;
+            display: inline-block;
+            margin-right:.5rem;
+            margin-bottom: .5rem;
+        }
+        .blue-box {
+            background-color: #06c;
+        }
+        .org-box {
+            background-color: #1fc195;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+    <header>我是头部</header>
+
+
+    <div class="bd">
+        <div class="box blue-box"></div>
+        <div class="box org-box"></div>
+        <div class="box blue-box"></div>
+        <div class="box org-box"></div>
+        <div class="box blue-box"></div>
+        <div class="box org-box"></div>
+    </div>
+
+
+    <footer>我是页脚</footer>
+    
+    <script>
+        (function (doc, win) {
+          var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+              var clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+            };
+
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+
+
+
+
+
+
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        isIOS = navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+        dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+        dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    docEl.dataset.dpr = dpr;
+    var recalc = function() {
+        var width = docEl.clientWidth;
+        if (width / dpr > 1080) {
+            width = 1080 * dpr;
+        }
+        docEl.dataset.width = width
+        docEl.dataset.percent = 100 * (width / 1080);
+        docEl.style.fontSize = 100 * (width / 1080) + 'px';
+    };
+    recalc()
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+})(document, window);
+
+以上，注意出现1080 的地方，这里改成设计图的宽度即可，这段代码的好处是根元素font-size是100 计算方便，若要给页面设置宽度 1080 = 10.8rem 640 = 6.4rem 等，字号的话直接根据设计图除以100即可，注意头部 别忘了。
+
+
+    </script>
+</body>
+
+</html>
